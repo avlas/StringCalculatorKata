@@ -4,62 +4,73 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StringCalculator {
+	
 	/**
 	 * Addition of numbers
 	 * 
-	 * @param numbers
-	 * @return the sum of numbers
+	 * @param input
+	 * @return the sum of numbers, else 0 if empty input
 	 */
-	public static int add(String numbers) {
+	public static int add(String input) {
 		int sum = 0;
-		// return 0 if the string is empty
-		if (!numbers.isEmpty()) {
-			// set the default separators
-			String separator = ",|\n";
 
-			// set the custom separator if given
-			if (numbers.startsWith("//")) {
-				separator = separatorSelector(numbers);
+		if (!input.isEmpty()) {
+			// Default delimiters : , or \n
+			String separator = ",|\n";		
+			
+			if (input.startsWith("//")) {
+				separator = getCustomSeparator(input);
 
 				// remove the separator from the string
-				numbers = numbers.substring(numbers.indexOf('\n') + 1);
+				input = input.substring(input.indexOf('\n') + 1);
 			}
-
-			// count values from the string
-			sum = sum(numbers, separator);
+			sum = sum(input, separator);
 		}
 		return sum;
 	}
 
-	private static String separatorSelector(String string) {
+	/**
+	 * Retrieve the custom separator
+	 * 
+	 * @param string
+	 * @return
+	 */
+	private static String getCustomSeparator(String string) {
 		String[] valuesInString = string.split("//|\n");
 		return valuesInString[1];
 	}
 
-	private static int sum(String numbers, String separator) {
+	/**
+	 * Count values of the string
+	 * 
+	 * @param valuesInString
+	 */
+	private static int sum(String input, String separator) {
 		int sum = 0;
 
-		// split the string with the separator
-		String[] valuesInString = numbers.split(separator);
+		String[] onlyValues = input.split(separator);
 
-		triggerExceptionForNegatives(valuesInString);
+		triggerExceptionIfNegatives(onlyValues);
 
-		for (String value : valuesInString) {
+		for (String value : onlyValues) {
 			sum += Integer.valueOf(value);
 		}
 		return sum;
 	}
 
-	private static void triggerExceptionForNegatives(String[] valuesInString) {
-		// save the negative values of the string
+	/**
+	 * Trigger an exception if there are negatives in the string
+	 * 
+	 * @param onlyValues
+	 */
+	private static void triggerExceptionIfNegatives(String[] onlyValues) {
 		List<String> negatives = new ArrayList<>();
-		for (String value : valuesInString) {
+		for (String value : onlyValues) {
 			if (Integer.parseInt(value) < 0) {
 				negatives.add(value);
 			}
 		}
 
-		// trigger an exception if there is negatives in the string
 		if (!negatives.isEmpty()) {
 			throw new IllegalArgumentException("Negatives not allowed: " + negatives.toString());
 		}
