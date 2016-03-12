@@ -56,4 +56,9 @@ public class StringCalculatorTest {
 	public void givenTabDelimiterAndNegatives_whenAdd_thenRuntimeException() {
 		StringCalculator.add("//	\n1	-3	-7");
 	}
+	
+	@Test
+	public void givenBiggerNumbers_whenAdd_thenSumIgnore() {
+		assertEquals(10, StringCalculator.add("//	\n1001	3	7"));
+	}
 }

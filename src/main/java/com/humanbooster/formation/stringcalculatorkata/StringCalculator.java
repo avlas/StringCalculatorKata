@@ -47,13 +47,17 @@ public class StringCalculator {
 	 */
 	private static int sum(String input, String separator) {
 		int sum = 0;
-
+		int maxLimit = 1000;
+		
 		String[] onlyValues = input.split(separator);
 
 		triggerExceptionIfNegatives(onlyValues);
 
-		for (String value : onlyValues) {
-			sum += Integer.valueOf(value);
+		for (String valueStr : onlyValues) {
+			int value = Integer.parseInt(valueStr);
+			if (value < maxLimit) {
+				sum += Integer.valueOf(value);
+			}			
 		}
 		return sum;
 	}
@@ -65,10 +69,10 @@ public class StringCalculator {
 	 */
 	private static void triggerExceptionIfNegatives(String[] onlyValues) {
 		List<String> negatives = new ArrayList<>();
-		for (String value : onlyValues) {
-			if (Integer.parseInt(value) < 0) {
+		for (String value : onlyValues) {			
+			if ( Integer.parseInt(value) < 0) {
 				negatives.add(value);
-			}
+			} 
 		}
 
 		if (!negatives.isEmpty()) {
