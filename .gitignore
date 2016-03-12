@@ -1,0 +1,10 @@
+#Maven compilation directory
+/target/
+
+#Eclipse
+.classpath
+.project
+.settings/
+
+#Linux save copy
+*~
