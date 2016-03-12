@@ -27,8 +27,26 @@ public class StringCalculatorTest {
 	}
 	
 	@Test
-	public void givenEmptyString_whenAdd_thenZero() {
+	public void givenNoNumber_whenAdd_thenZero() {
 		StringCalculator calculator = new StringCalculator();
 		assertEquals(0, calculator.add(""));
+	}
+	
+	@Test
+	public void givenOneNumber_whenAdd_thenOne() {
+		StringCalculator calculator = new StringCalculator();
+		assertEquals(1, calculator.add("1"));
+	}
+	
+	@Test
+	public void givenTwoNumbers_whenAdd_thenThree() {
+		StringCalculator calculator = new StringCalculator();
+		assertEquals(3, calculator.add("1,2"));
+	}
+	
+	@Test
+	public void givenUnknownNumbers_whenAdd_thenSum() {
+		StringCalculator calculator = new StringCalculator();
+		assertEquals(17, calculator.add("1,2,5,9"));
 	}
 }
