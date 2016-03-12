@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class StringCalculatorTest {
@@ -25,28 +26,53 @@ public class StringCalculatorTest {
 	@After
 	public void tearDown() throws Exception {
 	}
-	
+
 	@Test
 	public void givenNoNumber_whenAdd_thenZero() {
-		StringCalculator calculator = new StringCalculator();
-		assertEquals(0, calculator.add(""));
+		assertEquals(0, StringCalculator.add(""));
 	}
-	
+
 	@Test
 	public void givenOneNumber_whenAdd_thenOne() {
-		StringCalculator calculator = new StringCalculator();
-		assertEquals(1, calculator.add("1"));
+		assertEquals(1, StringCalculator.add("1"));
 	}
-	
+
 	@Test
 	public void givenTwoNumbers_whenAdd_thenThree() {
-		StringCalculator calculator = new StringCalculator();
-		assertEquals(3, calculator.add("1,2"));
+		assertEquals(3, StringCalculator.add("1,2"));
 	}
-	
+
 	@Test
 	public void givenUnknownNumbers_whenAdd_thenSum() {
-		StringCalculator calculator = new StringCalculator();
-		assertEquals(17, calculator.add("1,2,5,9"));
+		assertEquals(17, StringCalculator.add("1,2,5,9"));
+	}
+
+	@Test
+	public void givenNewLinesBetweenNumbers_whenAdd_thenSum() {
+		assertEquals(6, StringCalculator.add("1,2\n3"));
+		assertEquals(42, StringCalculator.add("1,2,3\n25,4\n7"));
+		assertEquals(8, StringCalculator.add("1,2\n5"));
+	}
+
+	@Test
+	public void givenDelimiters_whenAdd_thenSum() {
+		assertEquals(4, StringCalculator.add("//;\n1;3"));
+		assertEquals(26, StringCalculator.add("//toto\n1toto3toto22"));
+		assertEquals(11, StringCalculator.add("//	\n1	3	7"));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void givenNegatives_whenAdd_thenRuntimeException() {
+		StringCalculator.add("1,2,-3");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void givenDelimiterAndNegatives_whenAdd_thenRuntimeException() {
+		StringCalculator.add("//toto\n1toto-3toto22");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void givenTabDelimiterAndNegatives_whenAdd_thenRuntimeException() {
+		StringCalculator.add("//	\n1	-3	-7");
 	}
 }
